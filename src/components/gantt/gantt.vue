@@ -28,14 +28,14 @@
       initData () {
         this.tasks.data = [
           {
-            text: '决策类任务一', // 任务名
+            text: '国资监管类任务一', // 任务名
             start_date: '2021-07-19', // 开始时间
             id: 1, // 任务id
             duration: 4, // 任务时长，从start_date开始计算
             type: 1
           },
           {
-            text: '经营管理类任务一', // 任务名
+            text: '财务资产类任务一', // 任务名
             start_date: '2021-07-19', // 开始时间
             id: 2, // 任务id
             duration: 3, // 任务时长，从start_date开始计算
@@ -45,14 +45,14 @@
             text: '经营管理类任务二', // 任务名
             start_date: '2021-07-19', // 开始时间
             id: 3, // 任务id
-            duration: 5, // 任务时长，从start_date开始计算
+            duration: 2, // 任务时长，从start_date开始计算
             type: 3
           },
           {
             text: '日常管理类任务一', // 任务名
             start_date: '2021-07-19', // 开始时间
             id: 4, // 任务id
-            duration: 6, // 任务时长，从start_date开始计算
+            duration: 3, // 任务时长，从start_date开始计算
             type: 4
           },
         ].map(function(current, ind, arry) {
@@ -76,7 +76,7 @@
     },
     mounted() {
       this.initData()
-      
+
       //自适应甘特图的尺寸大小, 使得在不出现滚动条的情况下, 显示全部任务
       gantt.config.autosize = false
       //只读模式
@@ -93,7 +93,8 @@
       //设置x轴日期
       gantt.config.scale_unit = 'day'
       gantt.config.step = 1
-      gantt.config.date_scale = '周' + '%D'
+      // gantt.config.date_scale = '周' + '%D'
+      gantt.config.date_scale = '%D'
 
       //当task的长度改变时，自动调整图表坐标轴区间用于适配task的长度
       gantt.config.fit_tasks = true
@@ -127,6 +128,9 @@
           display: none;
         }
       }
+    }
+    /deep/ .gantt_container, /deep/ .gantt_tooltip, /deep/ .gantt_grid_scale, /deep/.gantt_task_scale, /deep/.gantt_task_vscroll, /deep/ .gantt_row, /deep/ .gantt_task_row {
+      background-color: transparent;
     }
   }
 </style>

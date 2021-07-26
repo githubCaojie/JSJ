@@ -21,7 +21,7 @@
           <el-input type="password" ref="pass" v-model="ruleForm.pass" placeholder="请输入用密码" autocomplete="off" @keyup.enter.native="focusKey('pass')"></el-input>
         </el-form-item>
         <div class="checkbox">
-          <el-checkbox v-model="checked">记住密码</el-checkbox>
+          <el-checkbox v-model="keepPass">记住密码</el-checkbox>
         </div>
         <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
       </el-form>
@@ -35,59 +35,76 @@
 </template>
 
 <script>
-  export default {
-    name: 'login',
-    data() {
-      var validateName = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入账号!'));
-        }else {
-          callback()
-        }
-      };
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码!'));
-        }else {
-          callback()
-        }
-      };
-      return {
-        ruleForm: {
-          name: '',
-          pass: '',
-        },
-        rules: {
-          name: [
-            { validator: validateName, trigger: 'blur' }
-          ],
-          pass: [
-            { validator: validatePass, trigger: 'blur' }
-          ],
-        },
-        visible: false
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      focusKey(key) {
-        if(key === 'name') {
-          this.$refs.pass.focus()
-        }else if(key === 'pass') {
-          this.submitForm('ruleForm')
-        }
+import axios from "axios";
+export default {
+  name: 'login',
+  data() {
+    var validateName = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入账号!'));
+      }else {
+        callback()
       }
+    };
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码!'));
+      }else {
+        callback()
+      }
+    };
+    return {
+      ruleForm: {
+        name: '',
+        pass: '',
+      },
+      rules: {
+        name: [
+          { validator: validateName, trigger: 'blur' }
+        ],
+        pass: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+      },
+      visible: false,
+      keepPass: false
+    };
+  },
+  methods: {
+    // 点击登录
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.login(this.ruleForm.name, this.ruleForm.pass)
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    // 登录验证
+    focusKey(key) {
+      if(key === 'name') {
+        this.$refs.pass.focus()
+      }else if(key === 'pass') {
+        this.submitForm('ruleForm')
+      }
+    },
+    // 登录接口
+    login(user, pass) {
+      this.$router.push({
+        name: 'home'
+      })
+      this.$message({
+        type: 'success',
+        message: '登录成功!',
+      });
+      this.ruleForm.name = ''
+      this.ruleForm.pass = ''
     }
   }
+  
+}
 </script>
 
 <style lang="less" scoped>
@@ -97,10 +114,9 @@
 .login {
   height: 100vh;
   .top {
-    width: calc(549px + 579px + 47px);
     height: 128px;
     font-size: var(--the-body-font-size);
-    margin: 0 auto;
+    margin: 0 18vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -118,10 +134,10 @@
     position: relative;
     /deep/ .el-form {
       width: 380px;
-      height: 448px;
+      padding-bottom: 7vh;
       background: var(--white-color);
       position: absolute;
-      right: 370px;
+      right: 18vw;
       top: 50%;
       transform: translateY(-50%);
       .title {

@@ -4,14 +4,19 @@
       <p class="img logo">
         <el-image :src="require('../../assets/img/home/logo.png')"/>
       </p>
-      <el-dropdown trigger="click">
-        <span class="el-dropdown-link">
-          <p class="img"><el-image :src="require('../../assets/img/home/user_default_head.png')"/></p>李某某<i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item icon="el-icon-remove">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <div class="right">
+        <div class="website-btn" @click="goWebsite">
+          <p class="img"><el-image :src="require('../../assets/img/home/website_icon.png')"/></p>进入官网
+        </div>
+        <el-dropdown trigger="click" @command="handleCommand">
+          <span class="el-dropdown-link">
+            <p class="img"><el-image :src="require('../../assets/img/home/user_default_head.png')"/></p>您好<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item icon="el-icon-remove" command="logout">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </el-header>
     <div class="content">
       <class-list/>
@@ -61,15 +66,15 @@
           </el-col>
           <el-col :span="12">
             <div class="name">
-              <i class="img"><el-image :src="require('../../assets/img/home/information_icon.png')"/></i>
+              <p class="img"><el-image :src="require('../../assets/img/home/information_icon.png')"/></p>
               待办审批事项
             </div>
             <div class="information">
               <div class="nav">
-                <div class="nav-item active">集团新闻</div>
-                <div class="nav-item">子公司动态</div>
-                <div class="nav-item">行业资讯</div>
-                <div class="nav-item">媒体关注</div>
+                <div class="nav-item" :class="{active : informationActiveId == 'jituanxinwen'}" @click="informationNavClick('jituanxinwen')">集团新闻</div>
+                <div class="nav-item" :class="{active : informationActiveId == 'zigongsidongtai'}" @click="informationNavClick('zigongsidongtai')">子公司动态</div>
+                <div class="nav-item" :class="{active : informationActiveId == 'hangyezixun'}" @click="informationNavClick('hangyezixun')">行业资讯</div>
+                <div class="nav-item" :class="{active : informationActiveId == 'meitiguanzhu'}" @click="informationNavClick('meitiguanzhu')">媒体关注</div>
               </div>
               <div class="main">
                 <el-row>
@@ -109,7 +114,7 @@
           </el-col>
           <el-col :span="12">
             <div class="name">
-              <i class="img"><el-image :src="require('../../assets/img/home/focus_icon.png')"/></i>
+              <p class="img"><el-image :src="require('../../assets/img/home/focus_icon.png')"/></p>
               我的关注
             </div>
             <div class="focus">
@@ -149,7 +154,7 @@
           </el-col>
           <el-col :span="12">
             <div class="name">
-              <i class="img"><el-image :src="require('../../assets/img/home/gongzuojihua_icon.png')"/></i>
+              <p class="img"><el-image :src="require('../../assets/img/home/gongzuojihua_icon.png')"/></p>
               工作计划
             </div>
             <div class="gantt">
@@ -159,6 +164,14 @@
         </el-row>
       </div>
     </div>
+    <!-- 单点登录代码 -->
+    <form name="Loginform" method="post" action='http://oa.hncc-china.com:8500/login/VerifyLogin.jsp' v-show="false">
+      loginid:<input name="loginid" value="18627548852">
+      <br>
+      userpassword:<input name="userpassword" value="qweASD123">
+      logintype:<input name="logintype" value="1">
+      <br>
+    </form>
   </div>
 </template>
 
@@ -172,6 +185,44 @@ export default {
     classList,
     Gantt
   },
+  data () {
+    return {
+      informationActiveId: 'jituanxinwen'
+    }
+  },
+  methods: {
+      // 进入官网
+    goWebsite() {
+      window.open('http://www.hncc-china.com/')
+    },
+    informationNavClick(type) {
+      this.informationActiveId = type
+    },
+    // 监听用户按钮的点击
+    handleCommand(command) {
+      // 退出登录
+      if(command === "logout") {
+        this.$confirm('是否退出登录?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '已成功退出!',
+          });
+          this.$router.push({
+            path: 'login'
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消退出'
+          });          
+        });
+      }
+    },
+  }
 }
 </script>
 
@@ -180,7 +231,7 @@ export default {
   background: url('../../assets/img/home/home_bg.png') center center / 100% 100% no-repeat;
   position: relative;
   width: 100vw;
-  height: 100vh;
+  padding-bottom: 7.37vw;
   .top {
     margin: 0 7.37vw;
     height: 120px;
@@ -188,7 +239,25 @@ export default {
     align-items: center;
     justify-content: space-between;
     padding: 0;
+    .right {
+      display: flex;
+      .website-btn {
+        color: var(--white-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        color: #79A9D8;
+        padding-right: 25px;
+        border-right: 1px solid #79A9D8;
+        cursor: pointer;
+        p.img {
+          margin-right: 10px;
+        }
+      }
+    }
     .el-dropdown {
+      padding-left: 24px;
       .el-dropdown-link {
         display: flex;
         align-items: center;
@@ -203,15 +272,21 @@ export default {
   }
   .content {
     margin: 0 7.37vw;
-    height: calc(100vh - 156px);
+    // height: calc(100vh - 156px);
     background: var(--white-color);
     padding: 24px;
+    overflow: scroll;
+    background-image: url('../../assets/img/home/bg.png');
+    background-size: 100% 100%;
+    background-position: bottom right;
     .office-list {
-      height: calc(100% - 200px);
+      height: 100%;
+      overflow: scroll;
       .el-row {
         height: 100%;
         .el-col {
-          height: calc(100% / 2);
+          // height: calc(100% / 2);
+          height: 327px;
         }
       }
       .name {
@@ -244,6 +319,10 @@ export default {
             display: flex;
             justify-content: space-between;
             width: calc(100% - 12px);
+            span:first-child {
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
           }
         }
         /deep/ .el-link::before {
@@ -260,7 +339,7 @@ export default {
       .todo {
         margin-top: 16px;
         height: calc(100% - 87px);
-        overflow: scroll;
+        // overflow: scroll;
         .item {
           width: 100%;
           /deep/ .el-button {
@@ -283,8 +362,8 @@ export default {
             }
           }
           /deep/ .el-badge__content {
-            top: 15px;
-            right: 35px;
+            // top: 15px;
+            right: 15px;
             background-color: #EF7230
           }
         }
@@ -293,10 +372,12 @@ export default {
         height: calc(100% - 87px);
         display: flex;
         margin-top: 16px;
-        overflow: hidden;
+        overflow-y: scroll;
+        position: relative;
         .nav {
-          width: 95px;
-          flex: 0 0 95px;
+          width: 97px;
+          flex: 0 0 100px;
+          position: relative;
           border-right: 1px solid #CAD7E0;
           .nav-item {
             height: 48px;
@@ -318,7 +399,7 @@ export default {
             border-left: 5px solid #1F8ECD;
             border-bottom: 4px solid transparent;
             position: absolute;
-            right: -7px;
+            right: -6px;
             top: 50%;
             transform: translateY(-50%);
           }

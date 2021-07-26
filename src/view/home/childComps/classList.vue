@@ -1,75 +1,154 @@
 <template>
   <div class="nav">
-    <el-row :gutter="48">
-      <el-col :span="3">
-        <div class="nav-list">
-          <p class="name">决策类</p>
-          <div class="item-box">
-            <div class="item orange">
-              <p class="img"><el-image :src="require('../../../assets/img/home/juecezhichi_icon.png')"/></p>
-              <p class="item-name">决策支持</p>
+    <el-row :gutter="24">
+      <el-col :span="6">
+        <div
+          class="item item1"
+          @mouseover="itemOver('item1')"
+          @mouseleave="itemLeave"
+        >
+          <transition name="el-zoom-in-top">
+            <div v-show="showId == '' || showId != 'item1'" class="transition-box default">
+              <p class="img"><el-image :src="require('../../../assets/img/home/guozijianguan_big.png')"/></p>
+              <p class="name">国资监管</p>
             </div>
-          </div>
-        </div>
-      </el-col>
-      <el-col :span="15">
-        <div class="nav-list">
-          <p class="name">经营管理类</p>
-          <div class="item-box">
-            <el-row :gutter="24">
-              <el-col :span="48">
-              <div class="item blue">
-                <p class="img"><el-image :src="require('../../../assets/img/home/xiangmuyunyinguanli_icon.png')"/></p>
-                <p class="item-name">项目运营管理</p>
-              </div>
-              </el-col>
-              <el-col :span="48">
-                <div class="item blue">
-                  <p class="img"><el-image :src="require('../../../assets/img/home/caigouguanli_icon.png')"/></p>
-                  <p class="item-name">采购管理</p>
-                </div>
-              </el-col>
-              <el-col :span="48">
-                <div class="item blue">
-                  <p class="img"><el-image :src="require('../../../assets/img/home/renliziyuan_icon.png')"/></p>
-                  <p class="item-name">人力资源</p>
-                </div>
-              </el-col>
-              <el-col :span="48">
-                <div class="item blue">
-                  <p class="img"><el-image :src="require('../../../assets/img/home/anquanguanli_icon.png')"/></p>
-                  <p class="item-name">安全管理</p>
-                </div>
-              </el-col>
-              <el-col :span="48">
-                <div class="item blue">
-                  <p class="img"><el-image :src="require('../../../assets/img/home/chubanguanli_icon.png')"/></p>
-                  <p class="item-name">出版管理</p>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
+          </transition>
+          <transition name="el-zoom-in-bottom">
+            <div v-show="showId == 'item1'" class="transition-box down">
+              <div class="name">国资监督</div>
+              <el-row>
+                <el-col :span="12">
+                  <div class="drop-down-item">
+                    <p class="img"><el-image :src="require('../../../assets/img/home/guozijianguan_small.png')"/></p>
+                    <span>监管指标</span>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="drop-down-item">
+                    <p class="img"><el-image :src="require('../../../assets/img/home/sanzhongyida_small.png')"/></p>
+                    <span>三重一大</span>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="drop-down-item">
+                    <p class="img"><el-image :src="require('../../../assets/img/home/jianduzhuize_small.png')"/></p>
+                    <span>监督追责</span>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="drop-down-item">
+                    <p class="img"><el-image :src="require('../../../assets/img/home/zongheweiwen_small.png')"/></p>
+                    <span>综合维稳</span>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+          </transition>
         </div>
       </el-col>
       <el-col :span="6">
-        <div class="nav-list">
-          <p class="name">日常管理类</p>
-          <div class="item-box">
-            <el-row :gutter="24">
-              <el-col :span="12">
-                <div class="item skyblue">
-                  <p class="img"><el-image :src="require('../../../assets/img/home/zhihuidangjian_icon.png')"/></p>
-                  <p class="item-name">智慧党建</p>
-                </div>
-              </el-col>
-              <el-col :span="12">
-                <div class="item skyblue">
-                  <p class="img"><el-image :src="require('../../../assets/img/home/xingzhenguanli_icon.png')"/></p>
-                  <p class="item-name">行政管理</p>
-                </div>
-              </el-col>
-            </el-row>
-          </div>
+        <div
+          class="item item2"
+          @mouseover="itemOver('item2')"
+          @mouseleave="itemLeave"
+        >
+          <transition name="el-zoom-in-top">
+            <div v-show="showId == '' || showId != 'item2'" class="transition-box default">
+              <p class="img"><el-image :src="require('../../../assets/img/home/richanguanli_big.png')"/></p>
+              <p class="name">日常管理</p>
+            </div>
+          </transition>
+          <transition name="el-zoom-in-bottom">
+              <div v-show="showId == 'item2'" class="transition-box down">
+                <div class="name">日常管理</div>
+                <el-row>
+                  <el-col :span="12">
+                    <div class="drop-down-item">
+                      <p class="img"><el-image :src="require('../../../assets/img/home/renzixitong_small.png')"/></p>
+                      <span>人资系统</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div class="drop-down-item" @click="goOaSystem">
+                      <p class="img"><el-image :src="require('../../../assets/img/home/oaguanli_small.png')"/></p>
+                      <span>OA系统</span>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </transition>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div
+          class="item item3"
+          @mouseover="itemOver('item3')"
+          @mouseleave="itemLeave"
+        >
+          <transition name="el-zoom-in-top">
+            <div v-show="showId == '' || showId != 'item3'" class="transition-box default">
+              <p class="img"><el-image :src="require('../../../assets/img/home/caiwuzichan_big.png')"/></p>
+              <p class="name">财务资产</p>
+            </div>
+          </transition>
+          <transition name="el-zoom-in-bottom">
+              <div v-show="showId == 'item3'" class="transition-box down">
+                <div class="name">财务资产</div>
+                <el-row>
+                  <el-col :span="12">
+                    <div class="drop-down-item">
+                      <p class="img"><el-image :src="require('../../../assets/img/home/caiwuxitong_small.png')"/></p>
+                      <span>财务共享</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div class="drop-down-item">
+                      <p class="img"><el-image :src="require('../../../assets/img/home/caiwuzichan_small.png')"/></p>
+                      <span>资产管理</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div class="drop-down-item">
+                      <p class="img"><el-image :src="require('../../../assets/img/home/chanquanguanli_small.png')"/></p>
+                      <span>产权管理</span>
+                    </div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div class="drop-down-item">
+                      <p class="img"><el-image :src="require('../../../assets/img/home/shenjixitong_small.png')"/></p>
+                      <span>审计系统</span>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </transition>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div
+          class="item item4"
+          @mouseover="itemOver('item4')"
+          @mouseleave="itemLeave"
+        >
+          <transition name="el-zoom-in-top">
+          <div v-show="showId == '' || showId != 'item4'" class="transition-box default">
+            <p class="img"><el-image :src="require('../../../assets/img/home/shipinhuiyi_big.png')"/></p>
+            <p class="name">视频会议</p>
+            </div>
+          </transition>
+          <transition name="el-zoom-in-bottom">
+              <div v-show="showId == 'item4'" class="transition-box down">
+                <div class="name">视频会议</div>
+                <el-row>
+                  <el-col :span="12">
+                    <div class="drop-down-item">
+                      <p class="img"><el-image :src="require('../../../assets/img/home/shipinhuiyizhongxin_small.png')"/></p>
+                      <span>视频会议中心</span>
+                    </div>
+                  </el-col>
+                </el-row>
+              </div>
+            </transition>
         </div>
       </el-col>
     </el-row>
@@ -78,63 +157,115 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      show3: true,
+      showId: ''
+    }
+  },
+  methods: {
+    itemOver(id) {
+      this.showId = id
+    },
+    itemLeave() {
+      this.showId = ''
+    },
+    goOaSystem() {
+      document.Loginform.submit();
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
-.el-col-48 {
-  width: 20%;
-}
 .nav {
   width: 100%;
-  .nav-list {
-    .name {
-      font-size: var(--the-title-font-size);
-      font-weight: bold;
-      color: #415261;
-      position: relative;
-      text-indent: var(--the-title-font-size);
-      line-height: 21px;
-      margin-bottom: 29px;
+  .item{
+    height: 175px;
+    width: 100%;
+    .default {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      p.img {
+        text-align: center;
+      }
+      .name {
+        font-size: 20px;
+        color: var(--white-color);
+        margin-top: 25px;
+      }
     }
-    .name::before {
-      content: "";
-      width: 3px;
-      height: 16px;
-      background: #415261;
-      position: absolute;
-      left: 0;
-      top: 1.5px;
-    }
-    .item-box {
-      .item {
-        width: 100%;
-        height: 150px;
-        border-radius: 8px;
+    .down {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: calc(100% - 5.04vw);
+      margin: 0 2.52vw;
+      .name {
+        color: var(--white-color);
+        font-size: 20px;
+        line-height: 32px;
+        border-bottom: 3px solid var(--white-color);
+        display: inline-block;
+        position: relative;
+        margin-bottom: 20px;
+      }
+      .name::before {
+        content: "";
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid var(--white-color);
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .drop-down-item {
         display: flex;
-        justify-content: center;
         align-items: center;
-        flex-direction: column;
+        font-size: 14px;
+        color: var(--white-color);
+        margin-top: 15px;
         cursor: pointer;
-        .item-name {
-          font-size: 14px;
-          font-weight: 400;
-          line-height: 19px;
-          margin-top: 16px;
-          color: var(--white-color);
+        white-space: nowrap;
+        p.img {
+          margin-right: 10px;
+          flex: 0 0 24px;
+        }
+      }
+      .el-row {
+        width: 100%;
+        height: 63px;
+        overflow: scroll;
+        .el-col:nth-child(even) .drop-down-item {
+          justify-content: flex-end;
+        }
+        .el-col:nth-child(1) .drop-down-item, .el-col:nth-child(2) .drop-down-item {
+          margin-top: 0;
         }
       }
     }
-    .item.orange {
-      background: linear-gradient(180deg, #FE9B66 0%, #EF7230 100%);
-    }
-    .item.blue {
-      background: linear-gradient(180deg, #3170B8 0%, #003A7C 100%);
-    }
-    .item.skyblue {
-      background: linear-gradient(180deg, #4CB9F6 0%, #1F8ECD 100%);
-    }
+  }
+  .item1 {
+    background: url('../../../assets/img/home/guozijiandu_bg.png');
+  }
+  .item2 {
+    background: url('../../../assets/img/home/richangguanli_bg.png');
+  }
+  .item3 {
+    background: url('../../../assets/img/home/caiwuzichan_bg.png');
+  }
+  .item4 {
+    background: url('../../../assets/img/home/shipinhuiyi_bg.png');
   }
 }
 </style>
